@@ -5,13 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
+    // Attributes
     private String name;
     private String email;
     private String phone;
@@ -33,10 +32,7 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
+    // Getters and Setters
     public String getName() {
         return name;
     }

@@ -7,38 +7,32 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "tb_orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Order extends BaseEntity {
 
+    // Attributes
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
     private EOrderStatus status;
 
     // Relationships
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_uuid", referencedColumnName = "uuid")
     private User client;
 
-    public void setClient(User client) {
-        this.client = client;
-    }
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 
-    public Order(User client){
-        this.client = client;
-    }
 
-    public Order(Instant moment, EOrderStatus status, User client) {
+    public Order(){}
+
+    public Order(Instant moment, EOrderStatus status, User client, Payment payment) {
         this.moment = moment;
         this.status = status;
         this.client = client;
+        this.payment = payment;
     }
 
-    public Long getId() {
-        return id;
-    }
-
+    // Getters and Setters
     public Instant getMoment() {
         return moment;
     }
@@ -57,6 +51,10 @@ public class Order {
 
     public User getClient(){
         return client;
+    }
+
+    public Payment getPayment() {
+        return payment;
     }
 
 }
