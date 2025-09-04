@@ -12,6 +12,8 @@ import java.util.UUID;
 public class User extends BaseEntity {
     // Attributes
     private String name;
+
+    @Column(unique = true)
     private String email;
     private String phone;
     private LocalDate birthDate;
