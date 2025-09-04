@@ -4,6 +4,9 @@ import br.kodemaster.dscommerce.enums.EOrderStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_orders")
@@ -22,7 +25,11 @@ public class Order extends BaseEntity {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
 
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
+
+    // Constructors
     public Order(){}
 
     public Order(Instant moment, EOrderStatus status, User client, Payment payment) {
@@ -57,4 +64,11 @@ public class Order extends BaseEntity {
         return payment;
     }
 
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public List<Product> getProducts(){
+        return items.stream().map(OrderItem::getProduct).toList();
+    }
 }

@@ -3,6 +3,7 @@ package br.kodemaster.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,6 +25,9 @@ public class Product extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "category_uuid", referencedColumnName = "uuid")
     )
     private final Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     // Constructors
     public Product(){}
@@ -69,5 +73,13 @@ public class Product extends BaseEntity {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public List<Order> getOrders(){
+        return items.stream().map(OrderItem::getOrder).toList();
     }
 }
